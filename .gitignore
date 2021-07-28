@@ -1,38 +1,37 @@
 
 ###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/public/build/
-/public/img/
-/public/uploads/
-/var/
-/vendor/
-/migrations/
+/manager/.env.local
+/manager/.env.local.php
+/manager/.env.*.local
+/manager/config/secrets/prod/prod.decrypt.private.php
+/manager/public/bundles/
+/manager/public/build/
+/manager/public/img/
+/manager/public/uploads/
+/manager/var/
+/manager/vendor/
+/manager/migrations/
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
-.phpunit.result.cache
-/phpunit.xml
+/manager.phpunit.result.cache
 ###< symfony/phpunit-bridge ###
 
 ###> phpunit/phpunit ###
-/phpunit.xml
+/manager/phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
 ###> symfony/webpack-encore-bundle ###
-/node_modules/
-/public/build/
-npm-debug.log
-yarn-error.log
+/manager/node_modules/
+/manager/public/build/
+/manager/npm-debug.log
+/manager/yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 /.idea
-/composer.lock
-/package-lock.json
-/node_modules
-/.env
+/manager/composer.lock
+/manager/package-lock.json
+/manager/node_modules
+/manager/.env
 
