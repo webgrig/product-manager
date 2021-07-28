@@ -1,7 +1,8 @@
 up: docker-up
 down: docker-down
 restart: docker-down docker-up
-init: manager-clear docker-down-clear docker-pull docker-build docker-up manager-init
+#init: manager-clear docker-down-clear docker-pull docker-build docker-up manager-init
+init: docker-down-clear docker-pull docker-build docker-up manager-composer-install
 test: manager-test
 test-coverage: manager-test-coverage
 test-unit: manager-test-unit
