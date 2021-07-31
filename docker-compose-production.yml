@@ -12,7 +12,7 @@ services:
         restart: always
         environment:
             APP_SECRET: ${MANAGER_APP_SECRET}
-            DATABASE_URL: pgsql://app:${MANAGER_DB_PASSWORD}@manager-postgres:5432/app
+            DATABASE_URL: postgresql://app:${MANAGER_DB_PASSWORD}@manager-postgres:5432/app?serverVersion=13&charset=utf8
             REDIS_HOST: manager-redis
             REDIS_PASSWORD: ${MANAGER_REDIS_PASSWORD}
             MAILER_URL: ${MANAGER_MAILER_URL}
@@ -36,7 +36,7 @@ services:
         image: ${REGISTRY_ADDRESS}/manager-php-cli:${IMAGE_TAG}
         environment:
             APP_SECRET: ${MANAGER_APP_SECRET}
-            DATABASE_URL: pgsql://app:${MANAGER_DB_PASSWORD}@manager-postgres:5432/app
+            DATABASE_URL: postgresql://app:${MANAGER_DB_PASSWORD}@manager-postgres:5432/app?serverVersion=13&charset=utf8
             REDIS_HOST: manager-redis
             REDIS_PASSWORD: ${MANAGER_REDIS_PASSWORD}
             MAILER_URL: ${MANAGER_MAILER_URL}
@@ -60,7 +60,7 @@ services:
         image: ${REGISTRY_ADDRESS}/manager-php-cli:${IMAGE_TAG}
         environment:
             APP_SECRET: ${MANAGER_APP_SECRET}
-            DATABASE_URL: pgsql://app:${MANAGER_DB_PASSWORD}@manager-postgres:5432/app
+            DATABASE_URL: postgresql://app:${MANAGER_DB_PASSWORD}@manager-postgres:5432/app?serverVersion=13&charset=utf8
             REDIS_HOST: manager-redis
             REDIS_PASSWORD: ${MANAGER_REDIS_PASSWORD}
             MAILER_URL: ${MANAGER_MAILER_URL}

@@ -2,7 +2,9 @@ up: docker-up
 down: docker-down
 restart: docker-down docker-up
 #init: manager-clear docker-down-clear docker-pull docker-build docker-up manager-init
-init: docker-down-clear docker-pull docker-build docker-up manager-composer-install
+#init: docker-down-clear docker-pull docker-build docker-up
+init: docker-down-clear docker-pull docker-build docker-up manager-init
+#init: docker-down-clear docker-pull docker-build docker-up
 test: manager-test
 test-coverage: manager-test-coverage
 test-unit: manager-test-unit
@@ -23,20 +25,18 @@ docker-pull:
 docker-build:
 	docker-compose build
 
-manager-init: manager-composer-create-project manager-oauth-keys manager-wait-db
+#manager-init: manager-composer-create-project manager-oauth-keys manager-wait-db
+manager-init: manager-oauth-keys manager-wait-db manager-migrations
 
-manager-clear:
-	docker-compose run --rm -v ${PWD}:/app --workdir=/app manager-php-cli rm -rf manager
 
-manager-composer-create-project:
-	docker-compose run --rm manager-php-cli composer create-project symfony/website-skeleton .
 
-manager-composer-install:
-	docker-compose run --rm manager-php-cli composer install
+manager-composer-update:
+	docker-compose run --rm manager-php-cli composer update
 
 manager-assets-install:
-	docker-compose run --rm manager-node yarn install
-	docker-compose run --rm manager-node npm rebuild node-sass
+#	docker-compose run --rm manager-node npm install
+#	docker-compose run --rm manager-node npm rebuild node-sass
+	docker-compose run --rm manager-node npm run dev
 
 manager-oauth-keys:
 	docker-compose run --rm manager-php-cli mkdir -p var/oauth

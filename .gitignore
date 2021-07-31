@@ -30,6 +30,7 @@
 ###< symfony/webpack-encore-bundle ###
 
 /.idea
+/manager/.idea
 /manager/composer.lock
 /manager/package-lock.json
 /manager/node_modules

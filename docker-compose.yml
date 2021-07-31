@@ -2,7 +2,7 @@ version: '3'
 services:
     manager-nginx:
         build:
-            context: ./docker/development
+            context: ./manager/docker/development
             dockerfile: nginx.docker
         volumes:
             - ./manager:/app
@@ -12,10 +12,12 @@ services:
             - "8080:80"
     manager-php-fpm:
         build:
-            context: ./docker/development
+            context: ./manager/docker/development
             dockerfile: php-fpm.docker
         volumes:
             - ./manager:/app
+        environment:
+            DATABASE_URL: postgresql://app:secret@manager-postgres:5432/app?serverVersion=13&charset=utf8
         depends_on:
             - manager-postgres
             - manager-redis
@@ -25,13 +27,14 @@ services:
             - centrifugo
     manager-php-cli:
         build:
-            context: ./docker/development
+            context: ./manager/docker/development
             dockerfile: php-cli.docker
         volumes:
             - ./manager:/app
             - composer:/root/.composer/cache
         environment:
-            DATABASE_URL: pgsql://app:secret@manager-postgres:5432/app
+            DATABASE_URL: postgresql://app:secret@manager-postgres:5432/app?serverVersion=13&charset=utf8
+
         depends_on:
             - manager-postgres
             - manager-redis
@@ -41,7 +44,7 @@ services:
             - centrifugo
     manager-queue-worker:
         build:
-            context: ./docker/development
+            context: ./manager/docker/development
             dockerfile: php-cli.docker
         volumes:
             - ./manager:/app
@@ -66,7 +69,7 @@ services:
             - ./manager:/app
         working_dir: /app
     manager-postgres:
-        image: postgres:11.2-alpine
+        image: postgres:13.3-alpine
         volumes:
             - manager-postgres:/var/lib/postgresql/data
         environment:
