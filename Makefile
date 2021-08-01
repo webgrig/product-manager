@@ -26,17 +26,14 @@ docker-build:
 	docker-compose build
 
 #manager-init: manager-composer-create-project manager-oauth-keys manager-wait-db
-manager-init: manager-oauth-keys manager-wait-db manager-migrations
+#manager-init: manager-oauth-keys manager-wait-db manager-migrations
+manager-init: manager-composer-update manager-oauth-keys manager-wait-db manager-migrations manager-ready
+
 
 
 
 manager-composer-update:
-	docker-compose run --rm manager-php-cli composer update
-
-manager-assets-install:
-#	docker-compose run --rm manager-node npm install
-#	docker-compose run --rm manager-node npm rebuild node-sass
-	docker-compose run --rm manager-node npm run dev
+	#docker-compose run --rm manager-php-cli composer update
 
 manager-oauth-keys:
 	docker-compose run --rm manager-php-cli mkdir -p var/oauth
@@ -50,9 +47,6 @@ manager-wait-db:
 manager-migrations:
 	docker-compose run --rm manager-php-cli php bin/console doctrine:migrations:diff --no-interaction
 	docker-compose run --rm manager-php-cli php bin/console doctrine:migrations:migrate --no-interaction
-
-manager-fixtures:
-	docker-compose run --rm manager-php-cli php bin/console doctrine:fixtures:load --no-interaction
 
 manager-ready:
 	docker run --rm -v ${PWD}/manager:/app --workdir=/app alpine touch .ready
