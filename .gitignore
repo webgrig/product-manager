@@ -35,4 +35,4 @@
 /manager/package-lock.json
 /manager/node_modules
 /manager/.env
-
+/manager/yarn.lock

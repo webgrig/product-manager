@@ -245,12 +245,12 @@ class User
 
     public function isWait(): bool
     {
-        return $this->status === self::STATUS_WAIT;
+         return $this->status === self::STATUS_WAIT;
     }
 
     public function isActive(): bool
     {
-        return $this->status === self::STATUS_ACTIVE;
+         return $this->status === self::STATUS_ACTIVE;
     }
 
     public function isBlocked(): bool

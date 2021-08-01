@@ -1,10 +1,7 @@
 up: docker-up
 down: docker-down
 restart: docker-down docker-up
-#init: manager-clear docker-down-clear docker-pull docker-build docker-up manager-init
-#init: docker-down-clear docker-pull docker-build docker-up
-init: docker-down-clear docker-pull docker-build docker-up manager-init
-#init: docker-down-clear docker-pull docker-build docker-up
+init: docker-down-clear manager-clear docker-pull docker-build docker-up manager-init
 test: manager-test
 test-coverage: manager-test-coverage
 test-unit: manager-test-unit
@@ -25,15 +22,17 @@ docker-pull:
 docker-build:
 	docker-compose build
 
-#manager-init: manager-composer-create-project manager-oauth-keys manager-wait-db
-#manager-init: manager-oauth-keys manager-wait-db manager-migrations
-manager-init: manager-composer-update manager-oauth-keys manager-wait-db manager-migrations manager-ready
+manager-init: manager-composer-install manager-assets-install manager-oauth-keys manager-wait-db manager-ready
 
+manager-clear:
+	docker run --rm -v ${PWD}/manager:/app --workdir=/app alpine rm -f .ready
 
+manager-composer-install:
+	docker-compose run --rm manager-php-cli composer install
 
-
-manager-composer-update:
-	#docker-compose run --rm manager-php-cli composer update
+manager-assets-install:
+	docker-compose run --rm manager-node yarn install
+	docker-compose run --rm manager-node npm rebuild node-sass
 
 manager-oauth-keys:
 	docker-compose run --rm manager-php-cli mkdir -p var/oauth
@@ -45,8 +44,10 @@ manager-wait-db:
 	until docker-compose exec -T manager-postgres pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
 
 manager-migrations:
-	docker-compose run --rm manager-php-cli php bin/console doctrine:migrations:diff --no-interaction
 	docker-compose run --rm manager-php-cli php bin/console doctrine:migrations:migrate --no-interaction
+
+manager-fixtures:
+	docker-compose run --rm manager-php-cli php bin/console doctrine:fixtures:load --no-interaction
 
 manager-ready:
 	docker run --rm -v ${PWD}/manager:/app --workdir=/app alpine touch .ready
@@ -67,11 +68,11 @@ manager-test-unit-coverage:
 	docker-compose run --rm manager-php-cli php bin/phpunit --testsuite=unit --coverage-clover var/clover.xml --coverage-html var/coverage
 
 build-production:
-	docker build --pull --file=docker/production/nginx.docker --tag ${REGISTRY_ADDRESS}/manager-nginx:${IMAGE_TAG} manager
-	docker build --pull --file=docker/production/php-fpm.docker --tag ${REGISTRY_ADDRESS}/manager-php-fpm:${IMAGE_TAG} manager
-	docker build --pull --file=docker/production/php-cli.docker --tag ${REGISTRY_ADDRESS}/manager-php-cli:${IMAGE_TAG} manager
-	docker build --pull --file=docker/production/postgres.docker --tag ${REGISTRY_ADDRESS}/manager-postgres:${IMAGE_TAG} manager
-	docker build --pull --file=docker/production/redis.docker --tag ${REGISTRY_ADDRESS}/manager-redis:${IMAGE_TAG} manager
+	docker build --pull --file=manager/docker/production/nginx.docker --tag ${REGISTRY_ADDRESS}/manager-nginx:${IMAGE_TAG} manager
+	docker build --pull --file=manager/docker/production/php-fpm.docker --tag ${REGISTRY_ADDRESS}/manager-php-fpm:${IMAGE_TAG} manager
+	docker build --pull --file=manager/docker/production/php-cli.docker --tag ${REGISTRY_ADDRESS}/manager-php-cli:${IMAGE_TAG} manager
+	docker build --pull --file=manager/docker/production/postgres.docker --tag ${REGISTRY_ADDRESS}/manager-postgres:${IMAGE_TAG} manager
+	docker build --pull --file=manager/docker/production/redis.docker --tag ${REGISTRY_ADDRESS}/manager-redis:${IMAGE_TAG} manager
 	docker build --pull --file=centrifugo/docker/production/centrifugo.docker --tag ${REGISTRY_ADDRESS}/centrifugo:${IMAGE_TAG} centrifugo
 
 push-production:
