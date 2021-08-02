@@ -13,8 +13,6 @@
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.9",
         "fresh/centrifugo-bundle": "^2.1",
-        "knplabs/knp-menu-bundle": "^3.1",
-        "knplabs/knp-paginator-bundle": "^5.6",
         "phpdocumentor/reflection-docblock": "^5.2",
         "ramsey/uuid": "^4.1",
         "sensio/framework-extra-bundle": "^6.1",

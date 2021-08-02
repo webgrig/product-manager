@@ -22,7 +22,7 @@ docker-pull:
 docker-build:
 	docker-compose build
 
-manager-init: manager-composer-install manager-assets-install manager-oauth-keys manager-wait-db manager-migrations manager-fixtures manager-ready
+manager-init: manager-composer-install manager-assets-install manager-oauth-keys manager-wait-db manager-migrations manager-ready
 
 manager-clear:
 	docker run --rm -v ${PWD}/manager:/app --workdir=/app alpine rm -f .ready
@@ -41,7 +41,7 @@ manager-oauth-keys:
 	docker-compose run --rm manager-php-cli chmod 644 var/oauth/private.key var/oauth/public.key
 
 manager-wait-db:
-	until docker-compose exec -T manager-postgres pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
+	until docker-compose exec -T manager-postgres pg_isready --timeout=0 --dbname=app ; do sleep 5 ; done
 
 manager-migrations:
 	docker-compose run --rm manager-php-cli php bin/console doctrine:migrations:migrate --no-interaction

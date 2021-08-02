@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\User\UseCase\SignUp\Confirm\ByToken;
+namespace App\Model\User\UseCase\SignUp\Confirm;
 
 class Command
 {
