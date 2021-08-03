@@ -11,10 +11,10 @@ class ResetTokenizer
 {
     private $interval;
 
-    public function __construct(\DateInterval $interval)
-    {
-        $this->interval = $interval;
-    }
+//    public function __construct(\DateInterval $interval)
+//    {
+//        $this->interval = $interval;
+//    }
 
     public function generate(): ResetToken
     {
