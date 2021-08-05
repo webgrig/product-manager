@@ -21,6 +21,7 @@ services:
             MAILER_URL: smtp://mailer:1025
         depends_on:
             - manager-postgres
+            - mailer
     manager-php-cli:
         build:
             context: ./manager/docker/development
@@ -33,8 +34,20 @@ services:
 
         depends_on:
             - manager-postgres
+            - mailer
+    manager-node-watch:
+        image: node:16-alpine
+        volumes:
+            - ./manager:/app
+        working_dir: /app
+        command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && npm run watch"
+    manager-node:
+        image: node:16-alpine
+        volumes:
+            - ./manager:/app
+        working_dir: /app
     manager-postgres:
-        image: postgres:13.3-alpine
+        image: postgres:13-alpine
         volumes:
             - manager-postgres:/var/lib/postgresql/data
         environment:
@@ -43,6 +56,7 @@ services:
             POSTGRES_DB: app
         ports:
             - "54321:5432"
+
     mailer:
         image: mailhog/mailhog
         ports:
