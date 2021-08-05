@@ -20,7 +20,7 @@ class ConfirmTokenSender
 
     public function send(Email $email, string $token): void
     {
-        $message = (new \Swift_Message('Sig Up Confirmation'))
+        $message = (new \Swift_Message('Sign Up Confirmation'))
             ->setTo($email->getValue())
             ->setBody($this->twig->render('mail/user/signup.html.twig', [
                 'token' => $token
