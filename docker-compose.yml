@@ -21,6 +21,7 @@ services:
             MAILER_URL: smtp://mailer:1025
         depends_on:
             - manager-postgres
+            - manager-redis
             - mailer
     manager-php-cli:
         build:
@@ -34,6 +35,7 @@ services:
 
         depends_on:
             - manager-postgres
+            - manager-redis
             - mailer
     manager-node-watch:
         image: node:16-alpine
@@ -56,6 +58,13 @@ services:
             POSTGRES_DB: app
         ports:
             - "54321:5432"
+    manager-redis:
+        image: redis:3.0-alpine
+        volumes:
+            - manager-redis:/data
+        command: redis-server --requirepass secret
+        ports:
+            - "6380:6379"
 
     mailer:
         image: mailhog/mailhog
@@ -65,4 +74,5 @@ services:
 
 volumes:
     manager-postgres:
+    manager-redis:
     composer:
