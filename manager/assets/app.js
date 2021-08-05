@@ -11,5 +11,7 @@ require('./styles/app.scss');
 require('bootstrap');
 require('@coreui/coreui');
 
+import './img/36859861.png';
 // start the Stimulus application
+
 import './bootstrap';
