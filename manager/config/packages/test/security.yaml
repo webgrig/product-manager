@@ -1,5 +1,5 @@
 security:
-    encoders:
+    password_hashers:
         App\Security\UserIdentity: argon2i
     firewalls:
         main:

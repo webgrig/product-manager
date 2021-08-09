@@ -63,6 +63,5 @@ class RoleCommand extends Command
         $this->handler->handle($command);
 
         $output->writeln('<info>Done!</info>');
-        return 1;
     }
 }

@@ -3,6 +3,7 @@
 @import "~simple-line-icons/scss/simple-line-icons";
 @import "~font-awesome/scss/font-awesome";
 
+
 main {
     & > .container {
         padding: 80px 15px 0;
@@ -15,6 +16,13 @@ main {
     }
 }
 
+.table {
+    th,
+    td {
+        vertical-align: middle;
+    }
+}
+
 .footer {
     background-color: #f5f5f5;
 
@@ -23,3 +31,31 @@ main {
         padding-left: 15px;
     }
 }
+
+.navbar-brand-full{
+    display: none;
+}
+
+.app-header .navbar-brand .navbar-brand-minimized{
+    display: inline-block;
+}
+
+.sidebar-lg-show .navbar-brand-full{
+    display: inline-block;
+}
+
+
+.sidebar-lg-show .navbar-brand .navbar-brand-minimized{
+    display: none;
+}
+
+@media (min-width: 991.97px){
+    .app-header .navbar-brand {
+        width: 50px;
+    }
+    .sidebar-lg-show .navbar-brand {
+        width: 155px;
+    }
+}
+
+
