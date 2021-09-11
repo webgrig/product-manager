@@ -12,7 +12,7 @@ class UserChecker implements UserCheckerInterface
 {
     public function checkPreAuth(UserInterface $identity): void
     {
-        if (!$identity instanceof FcebookUserIdentity) {
+        if (!$identity instanceof UserIdentity) {
             return;
         }
 
@@ -25,7 +25,7 @@ class UserChecker implements UserCheckerInterface
 
     public function checkPostAuth(UserInterface $identity): void
     {
-        if (!$identity instanceof FcebookUserIdentity) {
+        if (!$identity instanceof UserIdentity) {
             return;
         }
     }
