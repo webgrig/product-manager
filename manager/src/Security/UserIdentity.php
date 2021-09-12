@@ -6,9 +6,10 @@ namespace App\Security;
 
 use App\Model\User\Entity\User\User;
 use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserIdentity implements UserInterface, EquatableInterface
+class UserIdentity implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
 {
     private $id;
     private $username;
@@ -20,6 +21,7 @@ class UserIdentity implements UserInterface, EquatableInterface
         string $id,
         string $username,
         string $password,
+        string $display,
         string $role,
         string $status
     )
@@ -27,6 +29,7 @@ class UserIdentity implements UserInterface, EquatableInterface
         $this->id = $id;
         $this->username = $username;
         $this->password = $password;
+        $this->display = $display;
         $this->role = $role;
         $this->status = $status;
     }
@@ -41,9 +44,19 @@ class UserIdentity implements UserInterface, EquatableInterface
         return $this->status === User::STATUS_ACTIVE;
     }
 
+    public function getDisplay(): string
+    {
+        return $this->display;
+    }
+
     public function getUsername(): string
     {
         return $this->username;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->getUsername();
     }
 
     public function getPassword(): string
