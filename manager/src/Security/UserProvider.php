@@ -5,10 +5,8 @@ declare(strict_types=1);
 // src/Security/UserProvider.php
 namespace App\Security;
 
-use App\Model\User\Service\PasswordHasher;
 use App\ReadModel\User\UserFetcher;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
