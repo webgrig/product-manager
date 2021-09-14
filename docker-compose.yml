@@ -19,7 +19,7 @@ services:
             - ./manager:/app
         environment:
             DATABASE_URL: postgresql://app:secret@manager-postgres:5432/app?serverVersion=13&charset=utf8
-            MAILER_URL: smtp://mailer:1025
+            MAILER_DSN: smtp://mailer:1025
 #            REDIS_URL: tcp://manager-redis:6379?password=secret
         depends_on:
             - manager-postgres
