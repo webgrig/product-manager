@@ -60,18 +60,13 @@ services:
 #            # - { 'prefix': 'my_prefix', 'ttl': 600 }
 
 
-#    Predis\Client:
-#        arguments:
-#            - '%env(REDIS_URL)%'
+    Predis\Client:
+        arguments:
+            - '%env(REDIS_URL)%'
 
-#    Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
-#        arguments:
-#            - '@Predis\Client'
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
+        arguments:
+            - '@Predis\Client'
 
-#    App\Security\AuthListener:
-#        arguments: [ '@security.token_storage', '@security.authentication.manager' ]
-#
-#    App\Security\Credentials:
-#        arguments:
-#            $request_stack: '@request_stack'
-
+    App\Security\AuthListener:
+        arguments: [ '@security.token_storage', '@security.authentication.manager' ]
