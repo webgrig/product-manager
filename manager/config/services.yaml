@@ -68,5 +68,6 @@ services:
         arguments:
             - '@Predis\Client'
 
-    App\Security\AuthListener:
-        arguments: [ '@security.token_storage', '@security.authentication.manager' ]
+    App\Widget\:
+        resource: '../src/Widget'
+        tags: [ 'twig.extension' ]
