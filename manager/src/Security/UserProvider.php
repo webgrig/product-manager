@@ -81,9 +81,21 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 
     public function loadUserByUsername(string $username)
     {
-        if (!$user = $this->users->findForAuth($username)) {
+
+        $chunks = explode(':', $username);
+
+        if (\count($chunks) === 2) {
+            if (!$user = $this->users->findForAuthByNetwork($chunks[0], $chunks[1]))
+            {
+                throw new UserNotFoundException('Пользователь не найден.');
+            }
+        }
+
+        if (!$user = $this->users->findForAuthByEmail($username))
+        {
             throw new UserNotFoundException('Пользователь не найден.');
         }
+
         return new UserIdentity(
             $user->id,
             $user->email ?: $username,

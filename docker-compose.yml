@@ -71,7 +71,6 @@ services:
     mailer:
         image: mailhog/mailhog
         ports:
-            - "1020:1025"
             - "8081:8025"
 
 volumes:
