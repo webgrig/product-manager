@@ -1,16 +1,10 @@
 <?php
 namespace App\Security\OAuth;
 
-use App\Security\UserIdentity;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Model\User\UseCase\Network\Auth\Command;
+use App\Model\User\UseCase\Network\Auth\Handler;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
-use KnpU\OAuth2ClientBundle\Exception\InvalidStateException;
-use KnpU\OAuth2ClientBundle\Exception\MissingAuthorizationCodeException;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
-use KnpU\OAuth2ClientBundle\Security\Exception\IdentityProviderAuthenticationException;
-use KnpU\OAuth2ClientBundle\Security\Exception\InvalidStateAuthenticationException;
-use KnpU\OAuth2ClientBundle\Security\Exception\NoAuthCodeAuthenticationException;
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\FacebookUser;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,45 +12,40 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
 class FacebookAuthenticator extends OAuth2Authenticator
 {
-    private $clientRegistry;
-    private $entityManager;
-    private $router;
-    private CsrfTokenManagerInterface $csrfTokenManager;
+    private UserProviderInterface $userProvider;
+    private Handler $handler;
+    private ClientRegistry $clientRegistry;
 
     public function __construct(
         ClientRegistry $clientRegistry,
-        EntityManagerInterface $entityManager,
         RouterInterface $router,
-        CsrfTokenManagerInterface $csrfTokenManager
+        UserProviderInterface $userProvider,
+        Handler $handler
     )
     {
-        $this->clientRegistry = $clientRegistry;
-        $this->entityManager = $entityManager;
         $this->router = $router;
-        $this->csrfTokenManager = $csrfTokenManager;
+        $this->userProvider = $userProvider;
+        $this->handler = $handler;
+        $this->clientRegistry = $clientRegistry;
     }
 
     public function supports(Request $request): ?bool
     {
-        // continue ONLY if the current ROUTE matches the check ROUTE
-        return $request->attributes->get('_route') === 'oauth.facebook';
+        return 'oauth.facebook_check' === $request->attributes->get('_route');
     }
+
 
     public function authenticate(Request $request): PassportInterface
     {
-
-        $csrf_token = $this->csrfTokenManager->getToken('_csrf_token');
-        $request->getSession()->set('state', $csrf_token);
         $client = $this->clientRegistry->getClient('facebook_main');
-
-//        $client->refreshAccessToken($csrf_token);
 
         $accessToken = $this->fetchAccessToken($client);
 
@@ -66,25 +55,19 @@ class FacebookAuthenticator extends OAuth2Authenticator
                 /** @var FacebookUser $facebookUser */
                 $facebookUser = $client->fetchUserFromToken($accessToken);
 
-                $email = $facebookUser->getEmail();
+                $network = 'facebook';
+                $id = $facebookUser->getId();
+                $username = $network . ':' . $id;
 
-                // 1) have they logged in with Facebook before? Easy!
-                $existingUser = $this->entityManager->getRepository(UserIdentity::class)->findOneBy(['facebookId' => $facebookUser->getId()]);
-
-                if ($existingUser) {
-                    return $existingUser;
+                $command = new Command($network, $id);
+                $command->firstName = $facebookUser->getFirstName();
+                $command->lastName = $facebookUser->getLastName();
+                try {
+                    return $this->userProvider->loadUserByUsername($username);
+                } catch (UserNotFoundException $e) {
+                    $this->handler->handle($command);
+                    return $this->userProvider->loadUserByUsername($username);
                 }
-
-                // 2) do we have a matching user by email?
-                $user = $this->entityManager->getRepository(UserIdentity::class)->findOneBy(['email' => $email]);
-
-                // 3) Maybe you just want to "register" them by creating
-                // a User object
-                $user->setFacebookId($facebookUser->getId());
-                $this->entityManager->persist($user);
-                $this->entityManager->flush();
-
-                return $user;
             })
         );
     }
@@ -92,7 +75,7 @@ class FacebookAuthenticator extends OAuth2Authenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         // change "app_homepage" to some route in your app
-        $targetUrl = $this->router->generate('oauth.facebook_check');
+        $targetUrl = $this->router->generate('home');
 
         return new RedirectResponse($targetUrl);
 

@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\User\Service;
 
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
-use function Symfony\Component\Translation\t;
-
-class PasswordHasher implements PasswordHasherInterface
+class PasswordHasher
 {
     public function hash(string $password): string
     {
@@ -18,13 +15,8 @@ class PasswordHasher implements PasswordHasherInterface
         return $hash;
     }
 
-    public function verify(string $hashedPassword, string $plainPassword): bool
+    public function validate(string $password, string $hash): bool
     {
-        return password_verify($plainPassword, $hashedPassword);
-    }
-
-    public function needsRehash(string $hashedPassword): bool
-    {
-        return true;
+        return password_verify($password, $hash);
     }
 }

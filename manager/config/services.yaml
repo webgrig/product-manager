@@ -53,4 +53,4 @@ services:
         resource: '../src/Widget'
         tags: [ 'twig.extension' ]
 
-    KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface: '@knpu.oauth2.client.facebook_main'
+#    KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface: '@knpu.oauth2.client.facebook_main'
