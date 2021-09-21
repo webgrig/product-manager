@@ -15,7 +15,7 @@ class HomeTest extends WebTestCase
         $client->request('GET', '/');
 
         $this->assertSame(302, $client->getResponse()->getStatusCode());
-        $this->assertSame('http://localhost/login', $client->getResponse()->headers->get('Location'));
+        $this->assertSame('/login', $client->getResponse()->headers->get('Location'));
     }
 
     public function testSuccess(): void
@@ -25,9 +25,6 @@ class HomeTest extends WebTestCase
             'PHP_AUTH_PW' => 'password',
         ]);
         $crawler = $client->request('GET', '/');
-
-//        dd($crawler->filter('li.breadcrumb-item.active')->text());
-//        exit;
 
         $this->assertSame(200, $client->getResponse()->getStatusCode());
         $this->assertContains('Dashboard', [$crawler->filter('li.breadcrumb-item.active')->text()]);

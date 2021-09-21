@@ -81,7 +81,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
             $user = $this->users->findForAuthByNetwork($chunks[0], $chunks[1]);
         }
 
-        if (null === $user)
+        if (!isset($user))
         {
             $user = $this->users->findForAuthByEmail($username);
         }

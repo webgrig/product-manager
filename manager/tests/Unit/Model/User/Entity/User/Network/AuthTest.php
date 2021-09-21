@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Model\User\Entity\User\Network;
 
 use App\Model\User\Entity\User\Id;
+use App\Model\User\Entity\User\Name;
 use App\Model\User\Entity\User\Network;
 use App\Model\User\Entity\User\User;
 use PHPUnit\Framework\TestCase;
@@ -16,6 +17,7 @@ class AuthTest extends TestCase
         $user = User::signUpByNetwork(
             $id = Id::next(),
             $date = new \DateTimeImmutable(),
+            $name = new Name('John', 'Smith'),
             $network = 'vk',
             $identity = '0000001'
         );

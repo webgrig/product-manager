@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Builder\User;
 
 use App\Model\User\Entity\User\Email;
+use App\Model\User\Entity\User\Name;
 use App\Model\User\Entity\User\User;
 use App\Model\User\Entity\User\Id;
 
@@ -13,6 +14,7 @@ class UserBuilder
     private $id;
     private $date;
 
+    private $name;
     private $email;
     private $hash;
     private $token;
@@ -24,6 +26,7 @@ class UserBuilder
     public function __construct()
     {
         $this->id = Id::next();
+        $this->name = new Name('John', 'Smith');
         $this->date = new \DateTimeImmutable();
     }
 
@@ -57,6 +60,7 @@ class UserBuilder
             $user = User::signUpByEmail(
                 $this->id,
                 $this->date,
+                $this->name,
                 $this->email,
                 $this->hash,
                 $this->token
@@ -73,6 +77,7 @@ class UserBuilder
             return User::signUpByNetwork(
                 $this->id,
                 $this->date,
+                $this->name,
                 $this->network,
                 $this->identity
             );
