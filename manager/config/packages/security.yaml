@@ -20,11 +20,6 @@ security:
         main:
             lazy: true
             user_checker: App\Security\UserChecker
-#            guard:
-#                authenticators:
-#                    - App\Security\LoginFormAuthenticator
-#                    - App\Security\OAuth\FacebookAuthenticator
-#                entry_point: App\Security\LoginFormAuthenticator
 
             custom_authenticators:
                 - App\Security\LoginFormAuthenticator
@@ -49,13 +44,6 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-#        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/oauth, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/signup, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/reset, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/users, roles: ROLE_MANAGE_USERS }
-#        - { path: ^/, roles: ROLE_USER }
-
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/oauth, roles: PUBLIC_ACCESS }
         - { path: ^/signup, roles: PUBLIC_ACCESS }

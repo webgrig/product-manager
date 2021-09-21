@@ -1,5 +1,6 @@
 
 ###> symfony/framework-bundle ###
+.env
 /manager/.env.local
 /manager/.env.local.php
 /manager/.env.*.local
