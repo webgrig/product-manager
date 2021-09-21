@@ -19,7 +19,7 @@ docker-pull:
 docker-build:
 	docker-compose build
 
-manager-init: manager-composer-install manager-assets-install manager-wait-db manager-migrations manager-fixtures manager-ready
+manager-init: manager-composer-install manager-assets-install manager-wait-db manager-migrations manager-fixtures manager-db-test manager-ready
 
 manager-clear:
 	docker run --rm -v ${PWD}/manager:/app --workdir=/app alpine rm -f .ready
@@ -40,6 +40,11 @@ manager-migrations:
 
 manager-fixtures:
 	docker-compose run --rm manager-php-cli php bin/console doctrine:fixtures:load --no-interaction
+
+manager-db-test:
+	docker-compose run --rm manager-php-cli php bin/console doctrine:database:create --no-interaction --connection=test
+	docker-compose run --rm manager-php-cli php bin/console doctrine:migrations:migrate --no-interaction --env=test
+	docker-compose run --rm manager-php-cli php bin/console doctrine:fixtures:load --no-interaction --env=test
 
 manager-ready:
 	docker run --rm -v ${PWD}/manager:/app --workdir=/app alpine touch .ready

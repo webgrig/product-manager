@@ -8,14 +8,26 @@ parameters:
 doctrine:
     dbal:
         # configure these for your database server
-        driver: 'pdo_pgsql'
-        server_version: '11.2'
-        charset: utf8
-        default_table_options:
-            charset: utf8
-            collate: -
+        default_connection: default
+        connections:
+            default:
+                url: '%env(resolve:DATABASE_URL)%'
+                driver: 'pdo_pgsql'
+                server_version: '11.2'
+                charset: utf8
+                default_table_options:
+                    charset: utf8
+                    collate: -
 
-        url: '%env(resolve:DATABASE_URL)%'
+
+            test:
+                url: '%env(resolve:DATABASE_URL_TEST)%'
+                driver: 'pdo_pgsql'
+                server_version: '11.2'
+                charset: utf8
+                default_table_options:
+                    charset: utf8
+                    collate: -
 
         types:
             user_user_id: 'App\Model\User\Entity\User\IdType'
