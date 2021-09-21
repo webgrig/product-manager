@@ -26,6 +26,7 @@ class NewEmailConfirmTokenSender
                 'token' => $token
             ]), 'text/html');
 
+
         if (!$this->mailer->send($message)) {
             throw new \RuntimeException('Unable to send message.');
         }
