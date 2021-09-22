@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Widget\User;
 
+use App\Model\User\Service\FetchModeService;
 use App\ReadModel\User\NetworkFetcher;
+use App\ReadModel\User\NetworkView;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
@@ -33,6 +35,10 @@ class ButtonsWidget extends AbstractExtension
         $user = $this->security->getUser();
         $networkFetcher = new NetworkFetcher($this->connection);
         $networks = $networkFetcher->getNotMembershipNetworks($user->getId());
+        if (!count($networks) && !$networkFetcher->isUserHasNetwork($user->getId(), 'facebook'))
+        {
+            $networks = FetchModeService::getNetworks(NetworkView::class, [['network' => 'facebook']]);
+        }
         foreach ($networks as $network)
         {
             $network->id = $network->network;

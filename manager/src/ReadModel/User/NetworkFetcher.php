@@ -33,7 +33,20 @@ class NetworkFetcher
             ->setParameter(':user_id', $userId)
             ->execute();
         $result = $stmt->fetchAllAssociative();
-        $result = $result ? $result : [];
+        $result = $result ?: [];
         return FetchModeService::getNetworks(NetworkView::class, $result);
+    }
+
+    public function isUserHasNetwork(string $userId, string $networkName)
+    {
+        return $this->connection->createQueryBuilder()
+                ->select('user_id')
+                ->from('user_user_networks')
+                ->where('user_id = :user_id')
+                ->andWhere('network = :network')
+                ->setParameter(':user_id', $userId)
+                ->setParameter(':network', 'facebook')
+                ->execute()
+                ->rowCount();
     }
 }
