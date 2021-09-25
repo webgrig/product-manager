@@ -13,14 +13,17 @@ use App\Model\User\UseCase\Role;
 use App\Model\User\UseCase\SignUp\Confirm;
 use App\ReadModel\User\Filter;
 use App\ReadModel\User\UserFetcher;
+use App\ReadModel\Work\Members\Member\MemberFetcher;
 use Psr\Log\LoggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/users")
+ * @Route("/users", name="users")
+ * @IsGranted("ROLE_MANAGE_USERS")
  */
 class UsersController extends AbstractController
 {
@@ -34,7 +37,7 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("", name="users")
+     * @Route("", name="")
      * @param Request $request
      * @param UserFetcher $fetcher
      * @return Response
@@ -61,7 +64,7 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/create", name="users.create")
+     * @Route("/create", name=".create")
      * @param Request $request
      * @param Create\Handler $handler
      * @return Response
@@ -89,7 +92,7 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="users.edit")
+     * @Route("/{id}/edit", name=".edit")
      * @param User $user
      * @param Request $request
      * @param Edit\Handler $handler
@@ -97,6 +100,11 @@ class UsersController extends AbstractController
      */
     public function edit(User $user, Request $request, Edit\Handler $handler): Response
     {
+        if ($user->getId()->getValue() === $this->getUser()->getId()) {
+            $this->addFlash('error', 'Unable to edit yourself.');
+            return $this->redirectToRoute('users.show', ['id' => $user->getId()]);
+        }
+
         $command = Edit\Command::fromUser($user);
 
         $form = $this->createForm(Edit\Form::class, $command);
@@ -119,7 +127,7 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/role", name="users.role")
+     * @Route("/{id}/role", name=".role")
      * @param User $user
      * @param Request $request
      * @param Role\Handler $handler
@@ -154,7 +162,7 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/confirm", name="users.confirm", methods={"POST"})
+     * @Route("/{id}/confirm", name=".confirm", methods={"POST"})
      * @param User $user
      * @param Request $request
      * @param Confirm\Manual\Handler $handler
@@ -179,7 +187,7 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/activate", name="users.activate", methods={"POST"})
+     * @Route("/{id}/activate", name=".activate", methods={"POST"})
      * @param User $user
      * @param Request $request
      * @param Activate\Handler $handler
@@ -204,7 +212,7 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/block", name="users.block", methods={"POST"})
+     * @Route("/{id}/block", name=".block", methods={"POST"})
      * @param User $user
      * @param Request $request
      * @param Block\Handler $handler
@@ -234,12 +242,15 @@ class UsersController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="users.show")
+     * @Route("/{id}", name=".show")
      * @param User $user
+     * @param MemberFetcher $members
      * @return Response
      */
-    public function show(User $user): Response
+    public function show(User $user, MemberFetcher $members): Response
     {
-        return $this->render('app/users/show.html.twig', compact('user'));
+        $member = $members->find($user->getId()->getValue());
+
+        return $this->render('app/users/show.html.twig', compact('user', 'member'));
     }
 }

@@ -88,6 +88,7 @@ class UserIdentity implements UserInterface, PasswordAuthenticatedUserInterface,
 
         return
             $this->id === $user->id &&
+            $this->username === $user->username &&
             $this->password === $user->password &&
             $this->role === $user->role &&
             $this->status === $user->status;

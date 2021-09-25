@@ -11,6 +11,8 @@ class AuthController extends AbstractController
 {
     /**
      * @Route("/login", name="app_login")
+     * @param AuthenticationUtils $authenticationUtils
+     * @return Response
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -23,8 +25,9 @@ class AuthController extends AbstractController
     /**
      * @Route("/logout", name="app_logout", methods={"GET"})
      */
-    public function logout()
+    public function logout(): Response
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        // controller can be blank: it will never be executed!
+        throw new \Exception('Don\'t forget to activate logout in security.yaml');
     }
 }

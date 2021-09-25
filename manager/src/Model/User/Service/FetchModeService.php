@@ -2,8 +2,6 @@
 
 namespace App\Model\User\Service;
 
-use App\ReadModel\User\ViewerInterface;
-
 class FetchModeService
 {
     private function __construct() {}

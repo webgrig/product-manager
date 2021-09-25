@@ -25,7 +25,7 @@ class DetachController extends AbstractController
     }
 
     /**
-     * @Route("/detach/{network}/{identity}", name="profile.oauth.detach", methods={"POST", "DELETE"})
+     * @Route("/detach/{network}/{identity}", name="profile.oauth.detach", methods={"DELETE"})
      * @param Request $request
      * @param string $network
      * @param string $identity
@@ -46,7 +46,6 @@ class DetachController extends AbstractController
 
         try {
             $handler->handle($command);
-            $this->addFlash('success', ucfirst($network) . ' is successfully detached.');
             return $this->redirectToRoute('profile');
         } catch (\DomainException $e) {
             $this->logger->error($e->getMessage(), ['exception' => $e]);

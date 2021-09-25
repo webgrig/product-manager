@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 class SignUpController extends AbstractController
 {
@@ -61,6 +61,7 @@ class SignUpController extends AbstractController
      * @param string $token
      * @param SignUp\Confirm\ByToken\Handler $handler
      * @param UserProviderInterface $userProvider
+     * @param GuardAuthenticatorHandler $guardHandler
      * @param LoginFormAuthenticator $authenticator
      * @return Response
      */
@@ -68,9 +69,9 @@ class SignUpController extends AbstractController
         Request $request,
         string $token,
         SignUp\Confirm\ByToken\Handler $handler,
-        LoginFormAuthenticator $loginFormAuthenticator,
-        UserAuthenticatorInterface $userAuthenticator,
-        UserProviderInterface $userProvider
+        UserProviderInterface $userProvider,
+        GuardAuthenticatorHandler $guardHandler,
+        LoginFormAuthenticator $authenticator
     ): Response
     {
         if (!$user = $this->users->findBySignUpConfirmToken($token)) {
@@ -80,14 +81,13 @@ class SignUpController extends AbstractController
 
         $command = new SignUp\Confirm\ByToken\Command($token);
 
-
         try {
             $handler->handle($command);
-            $user = $userProvider->loadUserByIdentifier($user->email);
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $loginFormAuthenticator,
-                $request
+            return $guardHandler->authenticateUserAndHandleSuccess(
+                $userProvider->loadUserByUsername($user->email),
+                $request,
+                $authenticator,
+                'main'
             );
         } catch (\DomainException $e) {
             $this->logger->error($e->getMessage(), ['exception' => $e]);

@@ -42,7 +42,7 @@ class Handler
         $email = new Email($command->email);
 
         if ($this->users->hasByEmail($email)) {
-            throw new \DomainException('This email is already taken.');
+            throw new \DomainException('User already exists.');
         }
 
         $user = User::signUpByEmail(
