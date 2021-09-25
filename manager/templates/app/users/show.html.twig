@@ -40,30 +40,30 @@
     <div class="box">
         <table class="table table-bordered">
             <tbody>
-                <tr>
-                    <th>Name</th>
-                    <td>{{ user.name.full }}</td>
-                </tr>
-                <tr>
-                    <th>Email</th>
-                    <td>{{ user.email ? user.email.value : '' }}</td>
-                </tr>
-                <tr>
-                    <th>ID</th>
-                    <td>{{ user.id.value }}</td>
-                </tr>
-                <tr>
-                    <th>Created</th>
-                    <td>{{ user.date|date('Y-m-d H:i:s') }}</td>
-                </tr>
-                <tr>
-                    <th>Role</th>
-                    <td>{{ user_role(user.role.name) }}</td>
-                </tr>
-                <tr>
-                    <th>Status</th>
-                    <td>{{ user_status(user.status) }}</td>
-                </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ user.name.full }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email ? user.email.value : '' }}</td>
+            </tr>
+            <tr>
+                <th>ID</th>
+                <td>{{ user.id.value }}</td>
+            </tr>
+            <tr>
+                <th>Created</th>
+                <td>{{ user.date|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Role</th>
+                <td>{{ user_role(user.role.name) }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ user_status(user.status) }}</td>
+            </tr>
             </tbody>
         </table>
     </div>
@@ -72,12 +72,12 @@
         <div class="box">
             <table class="table table-bordered mb-0">
                 <tbody>
-                    {% for network in user.networks %}
-                        <tr>
-                            <th>{{ network.network }}</th>
-                            <td>{{ network.identity }}</td>
-                        </tr>
-                    {% endfor %}
+                {% for network in user.networks %}
+                    <tr>
+                        <th>{{ network.network }}</th>
+                        <td>{{ network.identity }}</td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>
