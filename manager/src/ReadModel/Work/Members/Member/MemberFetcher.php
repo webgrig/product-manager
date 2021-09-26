@@ -108,7 +108,7 @@ class MemberFetcher
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function isHasMembersInGroup($groupId): bool
+    public function hasByGroup($groupId): bool
     {
         return $this->connection->createQueryBuilder()
                 ->select('COUNT (group_id)')

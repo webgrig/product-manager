@@ -23,7 +23,7 @@ class NetworkFetcher
      * @throws \Doctrine\DBAL\Driver\Exception
      * @throws \Doctrine\DBAL\Exception
      */
-    public function getNotMembershipNetworks(string $userId)
+    public function getAnotherNetworks(string $userId)
     {
         $stmt = $this->connection->createQueryBuilder()
             ->select('network')
@@ -34,7 +34,7 @@ class NetworkFetcher
             ->execute();
         $result = $stmt->fetchAllAssociative();
 
-        if (!$result && !$this->isUserHasNetwork($userId, 'facebook'))
+        if (!$result && !$this->hasByNetwork($userId, 'facebook'))
         {
             $result = [['network' => 'facebook']];
         }
@@ -43,7 +43,7 @@ class NetworkFetcher
         return $networks;
     }
 
-    public function isUserHasNetwork(string $userId, string $networkName)
+    public function hasByNetwork(string $userId, string $networkName): bool
     {
         return $this->connection->createQueryBuilder()
                 ->select('user_id')
@@ -51,8 +51,8 @@ class NetworkFetcher
                 ->where('user_id = :user_id')
                 ->andWhere('network = :network')
                 ->setParameter(':user_id', $userId)
-                ->setParameter(':network', 'facebook')
+                ->setParameter(':network', $networkName)
                 ->execute()
-                ->rowCount();
+                ->rowCount() > 0;
     }
 }

@@ -73,4 +73,14 @@ class DepartmentFetcher
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    public function hasByMembers(string $departmentId)
+    {
+        return $this->connection->createQueryBuilder()
+                ->select('COUNT (department_id)')
+                ->from('work_projects_project_membership_departments')
+                ->where('department_id = :departmentId')
+                ->setParameter(':departmentId', $departmentId)
+                ->execute()->fetchColumn() > 0;
+    }
 }

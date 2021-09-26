@@ -30,7 +30,7 @@ class ButtonsWidget extends AbstractExtension
 
     public function missingNetworks(Environment $twig, string $userId): string
     {
-        $networks = $this->fetcher->getNotMembershipNetworks($userId);
+        $networks = $this->fetcher->getAnotherNetworks($userId);
 
         foreach ($networks as $network)
         {

@@ -40,10 +40,7 @@
                     <td>
                         <div class="d-flex flex-row">
                             <a href="{{ path('work.projects.project.settings.departments.edit', {'project_id': project.id, 'id': department.id}) }}" class="btn btn-sm btn-primary mr-1"><span class="fa fa-pencil"></span></a>
-                            <form action="{{ path('work.projects.project.settings.departments.delete', {'project_id': project.id, 'id': department.id}) }}" method="post" onsubmit="return confirm('Are you sure?')">
-                                <input type="hidden" name="token" value="{{ token }}" />
-                                <button type="submit" class="btn btn-sm btn-danger"><span class="fa fa-times"></span></button>
-                            </form>
+                            {{ deleteDepartmentButton(project.id, department.id) }}
                         </div>
                     </td>
                 </tr>

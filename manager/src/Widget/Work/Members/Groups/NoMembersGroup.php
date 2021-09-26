@@ -27,7 +27,7 @@ class NoMembersGroup extends AbstractExtension
 
     public function noMembersGroup(Environment $twig, string $groupId): string
     {
-        $noMembersGroup = !$this->fetcher->isHasMembersInGroup($groupId);
+        $noMembersGroup = !$this->fetcher->hasByGroup($groupId);
         return $twig->render('widget/work/members/groups/deleteButton.html.twig', [
             'noMembersGroup' => $noMembersGroup,
             'groupId' => $groupId
