@@ -15,12 +15,10 @@ use Twig\TwigFunction;
 
 class ButtonsWidget extends AbstractExtension
 {
-    private $connection;
     private $fetcher;
 
     public function __construct(Connection $connection, NetworkFetcher $fetcher)
     {
-        $this->connection = $connection;
         $this->fetcher = $fetcher;
     }
     public function getFunctions(): array
@@ -33,12 +31,6 @@ class ButtonsWidget extends AbstractExtension
     public function missingNetworks(Environment $twig, string $userId): string
     {
         $networks = $this->fetcher->getNotMembershipNetworks($userId);
-        if (!$networks && !$this->fetcher->isUserHasNetwork($userId, 'facebook'))
-        {
-            $networks = [['network' => 'facebook']];
-        }
-        $networks = null == $networks ? [] : $networks;
-        $networks = FetchModeService::getNetworks(NetworkView::class, $networks);
 
         foreach ($networks as $network)
         {
