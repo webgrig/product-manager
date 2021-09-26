@@ -108,4 +108,14 @@ class MemberFetcher
             ->execute();
         return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
     }
+
+    public function isHasMembersInGroup($groupId): bool
+    {
+        return $this->connection->createQueryBuilder()
+                ->select('COUNT (group_id)')
+                ->from('work_members_members', 'm')
+                ->where('m.group_id = :groupId')
+                ->setParameter(':groupId', $groupId)
+                ->execute()->fetchColumn() > 0;
+    }
 }

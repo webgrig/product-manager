@@ -29,8 +29,8 @@ class NetworkFetcher
             ->select('network')
             ->distinct()
             ->from('user_user_networks')
-            ->where('user_id != :user_id')
-            ->setParameter(':user_id', $userId)
+            ->where('network NOT LIKE (SELECT network FROM user_user_networks WHERE user_id = :userId)')
+            ->setParameter(':userId', $userId)
             ->execute();
         $result = $stmt->fetchAllAssociative();
         $result = $result ?: [];

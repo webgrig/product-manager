@@ -25,7 +25,7 @@ class DetachController extends AbstractController
     }
 
     /**
-     * @Route("/detach/{network}/{identity}", name="profile.oauth.detach", methods={"DELETE"})
+     * @Route("/detach/{network}/{identity}", name="profile.oauth.detach", methods={"DELETE", "POST"})
      * @param Request $request
      * @param string $network
      * @param string $identity

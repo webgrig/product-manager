@@ -5,9 +5,9 @@
     "prefer-stable": true,
     "require": {
         "php": ">=7.2.5",
-        "ext-pdo": "*",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-pdo": "*",
         "composer/package-versions-deprecated": "1.11.99.4",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.4",

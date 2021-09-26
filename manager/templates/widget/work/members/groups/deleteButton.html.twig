@@ -1,0 +1,7 @@
+{% set token = csrf_token('delete') %}
+{% if noMembersGroup %}
+    <form action="{{ path('work.members.groups.delete', {'id': groupId}) }}" method="post" onsubmit="return confirm('Are you sure?')">
+        <input type="hidden" name="token" value="{{ token }}" />
+        <button type="submit" class="btn btn-sm btn-danger"><span class="fa fa-trash"></span></button>
+    </form>
+{% endif %}
