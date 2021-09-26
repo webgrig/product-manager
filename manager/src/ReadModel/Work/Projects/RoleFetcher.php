@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\ReadModel\Work\Projects;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 
 class RoleFetcher
 {
@@ -47,7 +46,7 @@ class RoleFetcher
             return array_replace($role, [
                 'permissions' => json_decode($role['permissions'], true)
             ]);
-        }, $stmt->fetchAll(FetchMode::ASSOCIATIVE));
+        }, $stmt->fetchAll(\PDO::FETCH_ASSOC));
     }
 }
 

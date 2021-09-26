@@ -16,12 +16,12 @@ use Twig\TwigFunction;
 class ButtonsWidget extends AbstractExtension
 {
     private $connection;
-    private $security;
+    private $fetcher;
 
-    public function __construct(Connection $connection, Security $security)
+    public function __construct(Connection $connection, NetworkFetcher $fetcher)
     {
         $this->connection = $connection;
-        $this->security = $security;
+        $this->fetcher = $fetcher;
     }
     public function getFunctions(): array
     {
@@ -30,21 +30,23 @@ class ButtonsWidget extends AbstractExtension
         ];
     }
 
-    public function missingNetworks(Environment $twig): string
+    public function missingNetworks(Environment $twig, string $userId): string
     {
-        $user = $this->security->getUser();
-        $networkFetcher = new NetworkFetcher($this->connection);
-        $networks = $networkFetcher->getNotMembershipNetworks($user->getId());
-        if (!count($networks) && !$networkFetcher->isUserHasNetwork($user->getId(), 'facebook'))
+        $networks = $this->fetcher->getNotMembershipNetworks($userId);
+        if (!$networks && !$this->fetcher->isUserHasNetwork($userId, 'facebook'))
         {
-            $networks = FetchModeService::getNetworks(NetworkView::class, [['network' => 'facebook']]);
+            $networks = [['network' => 'facebook']];
         }
+        $networks = null == $networks ? [] : $networks;
+        $networks = FetchModeService::getNetworks(NetworkView::class, $networks);
+
         foreach ($networks as $network)
         {
             $network->id = $network->network;
             $network->path ='profile.oauth.' . $network->network;
             $network->title = ucwords('Attach ' . $network->network);
         }
+
         return $twig->render('widget/user/buttons.html.twig', [
             'networks' => $networks
         ]);

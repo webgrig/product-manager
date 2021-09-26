@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\ReadModel\Work\Projects\Project;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 
 class DepartmentFetcher
 {
@@ -51,7 +50,7 @@ class DepartmentFetcher
             ->orderBy('name')
             ->execute();
 
-        return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function allOfMember(string $member): array
@@ -72,6 +71,6 @@ class DepartmentFetcher
             ->orderBy('p.sort')->addOrderBy('d.name')
             ->execute();
 
-        return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 }

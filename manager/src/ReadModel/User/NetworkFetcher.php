@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\ReadModel\User;
 
 
-use App\Model\User\Service\FetchModeService;
 use Doctrine\DBAL\Connection;
 
 class NetworkFetcher
@@ -33,8 +32,7 @@ class NetworkFetcher
             ->setParameter(':userId', $userId)
             ->execute();
         $result = $stmt->fetchAllAssociative();
-        $result = $result ?: [];
-        return FetchModeService::getNetworks(NetworkView::class, $result);
+        return $result ?: null;
     }
 
     public function isUserHasNetwork(string $userId, string $networkName)

@@ -8,7 +8,6 @@ use App\Model\Work\Entity\Members\Member\Member;
 use App\Model\Work\Entity\Members\Member\Status;
 use App\ReadModel\Work\Members\Member\Filter\Filter;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -106,7 +105,7 @@ class MemberFetcher
             ->setParameter(':status', Status::ACTIVE)
             ->orderBy('g.name')->addOrderBy('name')
             ->execute();
-        return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function isHasMembersInGroup($groupId): bool

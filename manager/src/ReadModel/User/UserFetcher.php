@@ -8,7 +8,6 @@ use App\Model\User\Entity\User\User;
 use App\ReadModel\NotFoundException;
 use App\ReadModel\User\Filter\Filter;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -52,7 +51,7 @@ class UserFetcher
             ->setParameter(':email', $email)
             ->execute();
 
-        $stmt->setFetchMode(FetchMode::CUSTOM_OBJECT, AuthView::class);
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, AuthView::class);
         $result = $stmt->fetch();
 
         return $result ?: null;
@@ -76,7 +75,7 @@ class UserFetcher
             ->setParameter(':identity', $identity)
             ->execute();
 
-        $stmt->setFetchMode(FetchMode::CUSTOM_OBJECT, AuthView::class);
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, AuthView::class);
         $result = $stmt->fetch();
 
         return $result ?: null;
@@ -96,7 +95,7 @@ class UserFetcher
             ->setParameter(':email', $email)
             ->execute();
 
-        $stmt->setFetchMode(FetchMode::CUSTOM_OBJECT, ShortView::class);
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, ShortView::class);
         $result = $stmt->fetch();
 
         return $result ?: null;
@@ -116,7 +115,7 @@ class UserFetcher
             ->setParameter(':token', $token)
             ->execute();
 
-        $stmt->setFetchMode(FetchMode::CUSTOM_OBJECT, ShortView::class);
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, ShortView::class);
         $result = $stmt->fetch();
 
         return $result ?: null;
