@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class SignUpController extends AbstractController
 {
@@ -61,7 +61,6 @@ class SignUpController extends AbstractController
      * @param string $token
      * @param SignUp\Confirm\ByToken\Handler $handler
      * @param UserProviderInterface $userProvider
-     * @param GuardAuthenticatorHandler $guardHandler
      * @param LoginFormAuthenticator $authenticator
      * @return Response
      */
@@ -69,9 +68,9 @@ class SignUpController extends AbstractController
         Request $request,
         string $token,
         SignUp\Confirm\ByToken\Handler $handler,
-        UserProviderInterface $userProvider,
-        GuardAuthenticatorHandler $guardHandler,
-        LoginFormAuthenticator $authenticator
+        LoginFormAuthenticator $loginFormAuthenticator,
+        UserAuthenticatorInterface $userAuthenticator,
+        UserProviderInterface $userProvider
     ): Response
     {
         if (!$user = $this->users->findBySignUpConfirmToken($token)) {
@@ -81,16 +80,17 @@ class SignUpController extends AbstractController
 
         $command = new SignUp\Confirm\ByToken\Command($token);
 
+
         try {
             $handler->handle($command);
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $userProvider->loadUserByUsername($user->email),
-                $request,
-                $authenticator,
-                'main'
+            $user = $userProvider->loadUserByIdentifier($user->email);
+            return $userAuthenticator->authenticateUser(
+                $user,
+                $loginFormAuthenticator,
+                $request
             );
         } catch (\DomainException $e) {
-            $this->logger->error($e->getMessage(), ['exception' => $e]);
+            $this->logger->warning($e->getMessage(), ['exception' => $e]);
             $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('auth.signup');
         }

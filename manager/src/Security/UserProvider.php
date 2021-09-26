@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-// src/Security/UserProvider.php
 namespace App\Security;
 
 use App\ReadModel\User\UserFetcher;
