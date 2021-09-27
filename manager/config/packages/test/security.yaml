@@ -1,6 +1,6 @@
 security:
     password_hashers:
-        App\Security\UserIdentity: nativ
+        App\Security\UserIdentity: native
     firewalls:
         main:
             http_basic: ~

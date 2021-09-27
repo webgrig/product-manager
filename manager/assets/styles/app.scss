@@ -42,6 +42,11 @@ main {
     }
 }
 
+.badge {
+    padding: 0.28em 0.4em 0.22em 0.4em;
+    line-height: 1.1;
+}
+
 .footer {
     background-color: #f5f5f5;
 
@@ -50,31 +55,3 @@ main {
         padding-left: 15px;
     }
 }
-
-.navbar-brand-full{
-    display: none;
-}
-
-.app-header .navbar-brand .navbar-brand-minimized{
-    display: inline-block;
-}
-
-.sidebar-lg-show .navbar-brand-full{
-    display: inline-block;
-}
-
-
-.sidebar-lg-show .navbar-brand .navbar-brand-minimized{
-    display: none;
-}
-
-@media (min-width: 991.97px){
-    .app-header .navbar-brand {
-        width: 50px;
-    }
-    .sidebar-lg-show .navbar-brand {
-        width: 155px;
-    }
-}
-
-
