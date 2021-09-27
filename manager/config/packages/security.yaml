@@ -4,7 +4,7 @@ security:
     # https://symfony.com/doc/current/security.html#c-hashing-passwords
     password_hashers:
         App\Security\UserIdentity:
-            algorithm: argon2i
+            algorithm: native
 
 
 

@@ -27,6 +27,6 @@ class HomeTest extends WebTestCase
         $crawler = $client->request('GET', '/');
 
         $this->assertSame(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('Dashboard', [$crawler->filter('li.breadcrumb-item.active')->text()]);
+        $this->assertContains('Home', [$crawler->filter('li.breadcrumb-item.active')->text()]);
     }
 }

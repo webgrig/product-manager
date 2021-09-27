@@ -1,6 +1,6 @@
 security:
     password_hashers:
-        App\Security\UserIdentity: argon2i
+        App\Security\UserIdentity: nativ
     firewalls:
         main:
             http_basic: ~

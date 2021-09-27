@@ -99,4 +99,14 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
             $user->status
         );
     }
+
+    /**
+     * Upgrades the hashed password of a user, typically for using a better hash algorithm.
+     */
+    public function upgradePassword(UserInterface $identity, string $newHashedPassword): void
+    {
+        // TODO: when hashed passwords are in use, this method should:
+        // 1. persist the new password in the user storage
+        // 2. update the $user object with $user->setPassword($newHashedPassword);
+    }
 }
