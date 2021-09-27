@@ -1,7 +1,0 @@
-{% set token = csrf_token('delete') %}
-{% if noMembersDepartment %}
-    <form action="{{ path('work.projects.project.settings.departments.delete', {'project_id': projectId, 'id': departmentId}) }}" method="post" onsubmit="return confirm('Are you sure?')">
-        <input type="hidden" name="token" value="{{ token }}" />
-        <button type="submit" class="btn btn-sm btn-danger"><span class="fa fa-trash"></span></button>
-    </form>
-{% endif %}

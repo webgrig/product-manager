@@ -124,6 +124,9 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
+    "fzaninotto/faker": {
+        "version": "v1.9.2"
+    },
     "guzzlehttp/guzzle": {
         "version": "7.3.0"
     },
