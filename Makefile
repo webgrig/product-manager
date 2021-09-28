@@ -39,12 +39,12 @@ manager-migrations:
 	docker-compose run --rm manager-php-cli php bin/console doctrine:migrations:migrate --no-interaction
 
 manager-fixtures:
-	docker-compose run --rm manager-php-cli php bin/console doctrine:fixtures:load --no-interaction
+	docker-compose run --rm manager-php-cli php bin/console doctrine:fixtures:load --no-interaction  --group=dev
 
 manager-db-test:
 	docker-compose run --rm manager-php-cli php bin/console doctrine:database:create --no-interaction --connection=test
 	docker-compose run --rm manager-php-cli php bin/console doctrine:migrations:migrate --no-interaction --env=test
-	docker-compose run --rm manager-php-cli php bin/console doctrine:fixtures:load --no-interaction --env=test
+	docker-compose run --rm manager-php-cli php bin/console doctrine:fixtures:load --no-interaction  --group=test --env=test
 
 manager-ready:
 	docker run --rm -v ${PWD}/manager:/app --workdir=/app alpine touch .ready

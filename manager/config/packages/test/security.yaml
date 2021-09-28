@@ -3,4 +3,5 @@ security:
         App\Security\UserIdentity: native
     firewalls:
         main:
-            http_basic: ~
+            http_basic:
+                realm: Secured Area

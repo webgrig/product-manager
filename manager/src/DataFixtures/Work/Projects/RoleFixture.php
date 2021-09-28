@@ -8,12 +8,18 @@ use App\Model\Work\Entity\Projects\Role\Permission;
 use App\Model\Work\Entity\Projects\Role\Role;
 use App\Model\Work\Entity\Projects\Role\Id;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class RoleFixture extends Fixture
+class RoleFixture extends Fixture implements FixtureGroupInterface
 {
     public const REFERENCE_MANAGER = 'work_project_role_manager';
     public const REFERENCE_GUEST = 'work_project_role_guest';
+
+    public static function getGroups(): array
+    {
+        return ['dev'];
+    }
 
     public function load(ObjectManager $manager): void
     {

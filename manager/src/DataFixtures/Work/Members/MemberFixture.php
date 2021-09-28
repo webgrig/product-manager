@@ -12,13 +12,19 @@ use App\Model\Work\Entity\Members\Member\Member;
 use App\Model\Work\Entity\Members\Member\Id;
 use App\Model\Work\Entity\Members\Member\Name;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class MemberFixture extends Fixture implements DependentFixtureInterface
+class MemberFixture extends Fixture implements DependentFixtureInterface, FixtureGroupInterface
 {
     public const REFERENCE_ADMIN = 'work_member_admin';
     public const REFERENCE_USER = 'work_member_user';
+
+    public static function getGroups(): array
+    {
+        return ['dev'];
+    }
 
     public function load(ObjectManager $manager): void
     {

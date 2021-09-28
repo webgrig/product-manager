@@ -9,9 +9,10 @@ use App\Model\User\Entity\User\User;
 use App\Model\User\Entity\User\Id;
 use App\Model\User\Service\PasswordHasher;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class UserFixture extends Fixture
+class UserFixture extends Fixture implements FixtureGroupInterface
 {
     public const REFERENCE_ADMIN = 'user_user_admin';
     public const REFERENCE_USER = 'user_user_user';
@@ -21,6 +22,11 @@ class UserFixture extends Fixture
     public function __construct(PasswordHasher $hasher)
     {
         $this->hasher = $hasher;
+    }
+
+    public static function getGroups(): array
+    {
+        return ['dev'];
     }
 
     public function load(ObjectManager $manager): void

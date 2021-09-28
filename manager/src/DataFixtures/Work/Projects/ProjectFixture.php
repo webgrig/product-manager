@@ -11,13 +11,19 @@ use App\Model\Work\Entity\Projects\Project\Department\Id as DepartmentId;
 use App\Model\Work\Entity\Projects\Project\Project;
 use App\Model\Work\Entity\Projects\Project\Id;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class ProjectFixture extends Fixture implements DependentFixtureInterface
+class ProjectFixture extends Fixture implements DependentFixtureInterface, FixtureGroupInterface
 {
     public const REFERENCE_FIRST = 'first';
     public const REFERENCE_SECOND = 'second';
+
+    public static function getGroups(): array
+    {
+        return ['dev'];
+    }
 
     public function load(ObjectManager $manager): void
     {
