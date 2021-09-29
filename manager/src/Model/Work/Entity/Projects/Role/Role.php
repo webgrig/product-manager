@@ -55,9 +55,10 @@ class Role
 
     public function hasPermission(string $permission): bool
     {
-        return $this->permissions->exists(static function (Permission $current) use ($permission) {
+        return $this->permissions->exists(static function ($key, Permission $current) use ($permission) {
             return $current->isNameEqual($permission);
         });
+
     }
 
     public function clone(Id $id, string $name): self

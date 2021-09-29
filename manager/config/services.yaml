@@ -79,3 +79,13 @@ services:
     App\Tests\Functional\:
         resource: '../tests/Functional/**/*Fixture.php'
         tags: ['doctrine.fixture.orm']
+
+    cebe\markdown\MarkdownExtra:
+
+
+    App\Twig\Extension\Work\Processor\Driver\:
+        resource: '../src/Twig/Extension/Work/Processor/Driver/*Driver.php'
+        tags: ['app.twig.work_processor.driver']
+
+    App\Twig\Extension\Work\Processor\ProcessorExtension:
+        arguments: [!tagged app.twig.work_processor.driver]
