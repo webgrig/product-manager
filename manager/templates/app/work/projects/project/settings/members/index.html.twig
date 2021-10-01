@@ -31,7 +31,7 @@
                 <th>Name</th>
                 <th>Departments</th>
                 <th>Roles</th>
-                <th>Actions</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -61,7 +61,7 @@
                             <a href="{{ path('work.projects.project.settings.members.edit', {'project_id': project.id, 'member_id': membership.member.id}) }}" class="btn btn-sm btn-primary mr-1"><span class="fa fa-pencil"></span></a>
                             <form action="{{ path('work.projects.project.settings.members.revoke', {'project_id': project.id, 'member_id': membership.member.id}) }}" method="post" onsubmit="return confirm('Are you sure?')">
                                 <input type="hidden" name="token" value="{{ token }}" />
-                                <button type="submit" class="btn btn-sm btn-danger"><span class="fa fa-trash"></span></button>
+                                <button type="submit" class="btn btn-sm btn-danger"><span class="fa fa-times"></span></button>
                             </form>
                         </div>
                     </td>

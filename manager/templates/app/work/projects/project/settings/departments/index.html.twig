@@ -29,9 +29,10 @@
             <tr>
                 <th>Department</th>
                 <th>Members</th>
-                <th>Actions</th>
+                <th></th>
             </tr>
             <tbody>
+            {% set token = csrf_token('delete') %}
             {% for department in departments %}
                 <tr>
                     <td>{{ department.name }}</td>
@@ -39,7 +40,10 @@
                     <td>
                         <div class="d-flex flex-row">
                             <a href="{{ path('work.projects.project.settings.departments.edit', {'project_id': project.id, 'id': department.id}) }}" class="btn btn-sm btn-primary mr-1"><span class="fa fa-pencil"></span></a>
-                            {{ deleteDepartmentButton(project.id, department.id) }}
+                            <form action="{{ path('work.projects.project.settings.departments.delete', {'project_id': project.id, 'id': department.id}) }}" method="post" onsubmit="return confirm('Are you sure?')">
+                                <input type="hidden" name="token" value="{{ token }}" />
+                                <button type="submit" class="btn btn-sm btn-danger"><span class="fa fa-times"></span></button>
+                            </form>
                         </div>
                     </td>
                 </tr>
