@@ -1,0 +1,15 @@
+flysystem:
+    storages:
+        default.storage:
+            adapter: 'ftp'
+            options:
+                host: '%env(STORAGE_FTP_HOST)%'
+                username: '%env(STORAGE_FTP_USERNAME)%'
+                password: '%env(STORAGE_FTP_PASSWORD)%'
+                port: 21
+                root: '/'
+                passive: false
+                ssl: false
+                timeout: 30
+                ignore_passive_address: null
+                utf8: false

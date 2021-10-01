@@ -58,30 +58,24 @@ services:
         tags: ['twig.extension']
 
     App\Menu\SidebarMenu:
-        tags: [ { name: knp_menu.menu_builder, method: build, alias: sidebar } ]
+        tags: [{ name: knp_menu.menu_builder, method: build, alias: sidebar }]
 
     App\Menu\Work\MainMenu:
-        tags: [ { name: knp_menu.menu_builder, method: build, alias: work_main } ]
+        tags: [{ name: knp_menu.menu_builder, method: build, alias: work_main }]
 
     App\Menu\Work\Projects\ProjectMenu:
-        tags: [ { name: knp_menu.menu_builder, method: build, alias: work_project } ]
+        tags: [{ name: knp_menu.menu_builder, method: build, alias: work_project }]
 
     App\Menu\Work\Projects\SettingsMenu:
-        tags: [ { name: knp_menu.menu_builder, method: build, alias: work_project_settings } ]
+        tags: [{ name: knp_menu.menu_builder, method: build, alias: work_project_settings }]
 
     App\Menu\Work\Projects\TaskPresetMenu:
-        tags: [ { name: knp_menu.menu_builder, method: build, alias: work_projects_task_presets } ]
-
+        tags: [{ name: knp_menu.menu_builder, method: build, alias: work_projects_task_presets }]
 
 #    Symfony\Component\HttpFoundation\Session\Session:
 #        alias: Symfony\Component\HttpFoundation\Session\SessionInterface
 
-    App\Tests\Functional\:
-        resource: '../tests/Functional/**/*Fixture.php'
-        tags: ['doctrine.fixture.orm']
-
     cebe\markdown\MarkdownExtra:
-
 
     App\Twig\Extension\Work\Processor\Driver\:
         resource: '../src/Twig/Extension/Work/Processor/Driver/*Driver.php'
@@ -89,3 +83,6 @@ services:
 
     App\Twig\Extension\Work\Processor\ProcessorExtension:
         arguments: [!tagged app.twig.work_processor.driver]
+
+    App\Service\Uploader\FileUploader:
+        arguments: ['@default.storage', '%env(STORAGE_BASE_URL)%']

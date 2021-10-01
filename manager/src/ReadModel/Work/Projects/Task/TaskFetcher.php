@@ -159,7 +159,7 @@ class TaskFetcher
             ->orderBy('date', 'desc')
             ->execute();
 
-        $tasks = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $tasks = $stmt->fetchAll(FetchMode::ASSOCIATIVE);
         $executors = $this->batchLoadExecutors(array_column($tasks, 'id'));
 
         return array_map(static function (array $task) use ($executors) {
@@ -185,6 +185,6 @@ class TaskFetcher
             ->orderBy('name')
             ->execute();
 
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
     }
 }

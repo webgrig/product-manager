@@ -86,3 +86,19 @@ code {
         padding-left: 15px;
     }
 }
+
+.app-header {
+    .navbar-nav {
+        .dropdown-menu {
+            position: absolute;
+        }
+        // Menu positioning
+        //
+        // Add extra class to `.dropdown-menu` to flip the alignment of the dropdown
+        // menu with the parent.
+        .dropdown-menu-right {
+            right: -3.7rem;
+            left: auto; // Reset the default from `.dropdown-menu`
+        }
+    }
+}

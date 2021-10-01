@@ -35,7 +35,7 @@ class Command
     public $parent;
     /**
      * @var \DateTimeImmutable
-     * @Assert\Type("\DateTimeInterface")
+     * @Assert\Date()
      */
     public $plan;
     /**
