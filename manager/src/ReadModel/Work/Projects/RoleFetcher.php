@@ -49,3 +49,4 @@ class RoleFetcher
         }, $stmt->fetchAll(\PDO::FETCH_ASSOC));
     }
 }
+

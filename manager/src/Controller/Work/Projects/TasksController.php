@@ -126,7 +126,7 @@ class TasksController extends AbstractController
         $filter = Filter\Filter::all();
 
         $form = $this->createForm(Filter\Form::class, $filter, [
-            'action' => $this->generateUrl('work.projects.tasks'),
+             'action' => $this->generateUrl('work.projects.tasks'),
         ]);
 
         $form->handleRequest($request);

@@ -7,7 +7,6 @@ namespace App\ReadModel\Work\Projects\Task;
 use App\Model\Work\Entity\Projects\Task\Task;
 use App\ReadModel\Work\Projects\Task\Filter\Filter;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\Pagination\SlidingPagination;
@@ -116,7 +115,18 @@ class TaskFetcher
             $qb->setParameter(':executor', $filter->executor);
         }
 
-        $qb->orderBy($sort ?: 't.id', $direction === 'desc' ? 'desc' : 'asc');
+        if ($filter->roots) {
+            $qb->andWhere('t.parent_id IS NULL');
+        }
+
+        if (!$sort) {
+            $sort = 't.id';
+            $direction = $direction ?: 'desc';
+        } else {
+            $direction = $direction ?: 'asc';
+        }
+
+        $qb->orderBy($sort, $direction);
 
         /** @var SlidingPagination $pagination */
         $pagination = $this->paginator->paginate($qb, $page, $size);
@@ -159,7 +169,7 @@ class TaskFetcher
             ->orderBy('date', 'desc')
             ->execute();
 
-        $tasks = $stmt->fetchAll(FetchMode::ASSOCIATIVE);
+        $tasks = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         $executors = $this->batchLoadExecutors(array_column($tasks, 'id'));
 
         return array_map(static function (array $task) use ($executors) {
@@ -185,6 +195,6 @@ class TaskFetcher
             ->orderBy('name')
             ->execute();
 
-        return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 }

@@ -35,7 +35,7 @@ class TaskFixture extends Fixture implements DependentFixtureInterface, FixtureG
 
         $previous = [];
 
-        $date = new \DateTimeImmutable('-300 days');
+        $date = new \DateTimeImmutable('-100 days');
 
         for ($i = 0; $i < 100; $i++) {
 
