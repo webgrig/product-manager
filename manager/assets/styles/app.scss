@@ -66,9 +66,8 @@ main {
     }
 }
 
-pre {
+code {
     padding: 9.5px;
-    margin-bottom: 1rem;
     color: #333;
     word-break: break-all;
     word-wrap: break-word;
@@ -109,6 +108,8 @@ pre {
     }
 }
 
+@import "chat";
+
 .footer {
     background-color: #f5f5f5;
 
@@ -132,4 +133,8 @@ pre {
             left: auto; // Reset the default from `.dropdown-menu`
         }
     }
+}
+
+.mr-4, .mx-4 {
+    margin-right: 3.7rem !important;
 }

@@ -21,6 +21,7 @@ services:
             DATABASE_URL: postgresql://app:secret@manager-postgres:5432/app?serverVersion=13&charset=utf8
             MAILER_URL: smtp://mailer:1025
             REDIS_URL: tcp://manager-redis:6379?password=secret
+            STORAGE_FTP_HOST: storage-ftp
         depends_on:
             - manager-postgres
             - manager-redis
@@ -37,6 +38,7 @@ services:
         environment:
             DATABASE_URL: postgresql://app:secret@manager-postgres:5432/app?serverVersion=13&charset=utf8
             DATABASE_URL_TEST: postgresql://app:secret@manager-postgres:5432/app_test?serverVersion=13&charset=utf8
+            STORAGE_FTP_HOST: storage-ftp
 
         depends_on:
             - manager-postgres

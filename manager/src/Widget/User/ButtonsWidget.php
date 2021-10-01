@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace App\Widget\User;
 
-use App\Model\User\Service\FetchModeService;
 use App\ReadModel\User\NetworkFetcher;
-use App\ReadModel\User\NetworkView;
 use Doctrine\DBAL\Connection;
-use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

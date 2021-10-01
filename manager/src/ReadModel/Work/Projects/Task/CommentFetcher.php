@@ -7,7 +7,6 @@ namespace App\ReadModel\Work\Projects\Task;
 use App\Model\Work\Entity\Projects\Task\Task;
 use App\ReadModel\Comment\CommentRow;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 
 class CommentFetcher
 {
@@ -37,7 +36,7 @@ class CommentFetcher
             ->orderBy('c.date')
             ->execute();
 
-        $stmt->setFetchMode(\PDO::FETCH_ASSOC, CommentRow::class);
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, CommentRow::class);
 
         return $stmt->fetchAll();
     }
