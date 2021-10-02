@@ -38,6 +38,8 @@ class Handler
 
         $date = new \DateTimeImmutable();
 
+        $tasks = [];
+
         foreach ($command->names as $name) {
             $task = new Task(
                 $this->tasks->nextId(),
@@ -51,18 +53,18 @@ class Handler
             );
 
             if ($parent) {
-                $task->setChildOf($parent);
+                $task->setChildOf($member, $date, $parent);
             }
 
             if ($command->plan) {
-                $task->plan($command->plan);
+                $task->plan($member, $date, $command->plan);
             }
 
-            $date = $date->modify('+1 sec');
-
             $this->tasks->add($task);
+
+            $tasks[] = $task;
         }
 
-        $this->flusher->flush();
+        $this->flusher->flush(...$tasks);
     }
 }

@@ -41,6 +41,6 @@ class GroupFetcher
             ->orderBy('name')
             ->execute();
 
-        return $stmt->fetchAll(\PDO::FETCH_KEY_PAIR);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 }

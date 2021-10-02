@@ -25,6 +25,7 @@ services:
         depends_on:
             - manager-postgres
             - manager-redis
+            - manager-queue-redis
             - storage
             - storage-ftp
             - mailer
@@ -39,21 +40,35 @@ services:
             DATABASE_URL: postgresql://app:secret@manager-postgres:5432/app?serverVersion=13&charset=utf8
             DATABASE_URL_TEST: postgresql://app:secret@manager-postgres:5432/app_test?serverVersion=13&charset=utf8
             STORAGE_FTP_HOST: storage-ftp
-
         depends_on:
             - manager-postgres
             - manager-redis
+            - manager-queue-redis
             - storage
             - storage-ftp
             - mailer
+    manager-queue-worker:
+        build:
+            context: ./manager/docker/development
+            dockerfile: php-cli.docker
+        volumes:
+            - ./manager:/app
+            - composer:/root/.composer/cache
+        depends_on:
+            - manager-postgres
+            - manager-redis
+            - manager-queue-redis
+            - storage
+            - mailer
+        command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && php bin/console messenger:consume async -vv"
     manager-node-watch:
-        image: node:16-alpine
+        image: node:16-alpine3.14
         volumes:
             - ./manager:/app
         working_dir: /app
         command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && npm run watch"
     manager-node:
-        image: node:16-alpine
+        image: node:16-alpine3.14
         volumes:
             - ./manager:/app
         working_dir: /app
@@ -74,6 +89,10 @@ services:
         command: redis-server --requirepass secret
         ports:
             - "6380:6379"
+    manager-queue-redis:
+        image: redis:5.0-alpine
+        volumes:
+            - manager-queue-redis:/data
 
     storage:
         build:
@@ -103,4 +122,5 @@ services:
 volumes:
     manager-postgres:
     manager-redis:
+    manager-queue-redis:
     composer:
