@@ -23,16 +23,4 @@ class PlanTest extends TestCase
 
         self::assertEquals($date, $task->getPlanDate());
     }
-
-    public function testEmpty(): void
-    {
-        $group = (new GroupBuilder())->build();
-        $member = (new MemberBuilder())->build($group);
-        $project = (new ProjectBuilder())->build();
-        $task = (new TaskBuilder())->build($project, $member);
-
-        $task->plan(null);
-
-        self::assertNull($task->getPlanDate());
-    }
 }
