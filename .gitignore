@@ -4,6 +4,7 @@
 /manager/.env.local
 /manager/.env.local.php
 /manager/.env.*.local
+/manager/.rady
 /manager/config/secrets/prod/prod.decrypt.private.php
 /manager/public/bundles/
 /manager/public/build/

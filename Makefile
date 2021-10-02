@@ -29,8 +29,8 @@ manager-composer-install:
 	docker-compose run --rm manager-php-cli composer install
 
 manager-assets-install:
-	#docker-compose run --rm manager-node  npm install -g npm@7.24.1 && yarn install
-	docker-compose run --rm manager-node npm install -g agentkeepalive && npm install -g npm@latest && yarn install && npm rebuild node-sass
+	docker-compose run --rm manager-node yarn install
+	docker-compose run --rm manager-node npm rebuild node-sass
 
 manager-wait-db:
 	until docker-compose exec -T manager-postgres pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
