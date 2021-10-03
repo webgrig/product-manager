@@ -22,14 +22,13 @@
     <div class="box">
         <table class="table table-bordered table-hover">
             <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Members</th>
-                    <th></th>
-                </tr>
+            <tr>
+                <th>Name</th>
+                <th>Members</th>
+                <th>Actions</th>
+            </tr>
             </thead>
             <tbody>
-                {% set token = csrf_token('delete') %}
                 {% for group in groups %}
                     <tr>
                         <td>
@@ -43,10 +42,7 @@
                         <td>
                             <div class="d-flex flex-row">
                                 <a href="{{ path('work.members.groups.edit', {'id': group.id}) }}" class="btn btn-sm btn-primary mr-1"><span class="fa fa-pencil"></span></a>
-                                <form action="{{ path('work.members.groups.delete', {'id': group.id}) }}" method="post" onsubmit="return confirm('Are you sure?')">
-                                    <input type="hidden" name="token" value="{{ token }}" />
-                                    <button type="submit" class="btn btn-sm btn-danger"><span class="fa fa-trash"></span></button>
-                                </form>
+                                {{ deleteButton(group.id) }}
                             </div>
                         </td>
                     </tr>
