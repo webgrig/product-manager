@@ -1,4 +1,4 @@
-FROM php:7.4-cli AS php-cli-builder
+FROM php:7.4-fpm AS php-cli-builder
 
 RUN apt-get update && apt-get install -y unzip
 
@@ -14,7 +14,7 @@ RUN composer install --no-dev --no-scripts --prefer-dist --optimize-autoloader
 
 ######################
 
-FROM node:16-alpine AS node-builder
+FROM node:16-alpine3.14 AS node-builder
 
 WORKDIR /app
 
@@ -34,18 +34,11 @@ RUN pecl install -o -f redis \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable redis
 
-RUN pecl install -o -f redis \
-    && rm -rf /tmp/pear \
-    && docker-php-ext-enable redis
+RUN apt-get update && apt-get install -y libpq-dev \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo_pgsql opcache
 
-RUN apt-get update && apt-get install -y libpq-dev
-RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
-RUN docker-php-ext-install pdo pdo_pgsql
-
-
-RUN apt-get -y update && apt-get install -y libicu-dev \
-&& docker-php-ext-configure intl \
-&& docker-php-ext-install intl
+COPY ./docker/production/php/default.ini /usr/local/etc/php/conf.d/default.ini
 
 WORKDIR /app
 
