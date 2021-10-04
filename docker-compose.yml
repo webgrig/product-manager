@@ -123,7 +123,7 @@ services:
             - "8082:8025"
 
     centrifugo:
-        image: centrifugo/centrifugo:v3.0.1
+        image: centrifugo/centrifugo:latest
         ulimits:
             nofile:
                 soft: 65536

@@ -142,7 +142,7 @@
                                         <form action="{{ path('work.projects.tasks.plan.remove', {'project_id': project.id, 'id': task.id}) }}" method="post" onsubmit="return confirm('Are you sure?')">
                                             <input type="hidden" name="token" value="{{ csrf_token('remove-plan') }}" />
                                             <button type="submit" class="btn btn-sm py-0">
-                                                <span class="fa fa-times"></span>
+                                                <span class="fa fa-trash"></span>
                                             </button>
                                         </form>
                                     {% endif %}
@@ -227,7 +227,7 @@
                                     <form action="{{ path('work.projects.tasks.files.delete', {'id': task.id, 'file_id': file.id}) }}" method="post" onsubmit="return confirm('Are you sure?')">
                                         <input type="hidden" name="token" value="{{ csrf_token('delete-file') }}" />
                                         <button type="submit" class="btn btn-sm btn-default">
-                                            <span class="fa fa-times"></span>
+                                            <span class="fa fa-trash"></span>
                                         </button>
                                     </form>
                                 </td>
@@ -269,7 +269,7 @@
                                                     <form action="{{ path('work.projects.tasks.comments.delete', {'task_id': task.id, 'id': comment.id}) }}" method="post" onsubmit="return confirm('Are you sure?')">
                                                         <input type="hidden" name="token" value="{{ csrf_token('delete-comment') }}" />
                                                         <button type="submit" class="btn btn-sm btn-outline-secondary">
-                                                            <span class="fa fa-times"></span>
+                                                            <span class="fa fa-trash"></span>
                                                         </button>
                                                     </form>
                                                 </div>
@@ -334,7 +334,7 @@
                                         <form action="{{ path('work.projects.tasks.revoke', {'project_id': project.id, 'id': task.id, 'member_id': executor.id}) }}" method="post" onsubmit="return confirm('Are you sure?')">
                                             <input type="hidden" name="token" value="{{ csrf_token('revoke') }}" />
                                             <button type="submit" class="btn btn-sm btn-default">
-                                                <span class="fa fa-times"></span>
+                                                <span class="fa fa-trash"></span>
                                             </button>
                                         </form>
                                     </td>
