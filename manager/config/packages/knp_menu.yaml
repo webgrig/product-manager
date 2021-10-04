@@ -1,5 +1,0 @@
-knp_menu:
-    twig:
-        template: 'override/menu.html.twig'
-    templating: false
-    default_renderer: twig
